@@ -4,10 +4,16 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <RootNamespace>BaldursGateAPI2</RootNamespace>
+        <RootNamespace>BaldursGateAPI</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0-rc.2.22472.11">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.0-rc.2" />
       <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.4.0" />
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.4.0" />
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.4.0" />
@@ -15,7 +21,11 @@
 
     <ItemGroup>
       <Folder Include="Controllers" />
-      <Folder Include="Models" />
+      <Folder Include="Migrations" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="BaldursGateApi.Dto\bin\Debug\net6.0\BaldursGateApi.Dto.deps.json" />
     </ItemGroup>
 
 </Project>
