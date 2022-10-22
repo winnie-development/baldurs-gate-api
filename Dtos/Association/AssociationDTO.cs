@@ -1,4 +1,4 @@
-﻿namespace BaldursGateApi.Dto.Association;
+﻿namespace BaldursGateAPI.Dtos.Association;
 
 public class AssociationDTO
 {

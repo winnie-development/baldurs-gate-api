@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace BaldursGateAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class firstmigration : Migration
+    public partial class InitialBGAPISchemaCreation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,17 +16,16 @@ namespace BaldursGateAPI.Migrations
                 name: "AbilityScores",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Strength = table.Column<string>(type: "text", nullable: false),
-                    Dexterity = table.Column<int>(type: "integer", nullable: false),
-                    Constitution = table.Column<int>(type: "integer", nullable: false),
-                    Intelligence = table.Column<int>(type: "integer", nullable: false),
-                    Wisdom = table.Column<int>(type: "integer", nullable: false),
-                    Charisma = table.Column<int>(type: "integer", nullable: false),
-                    Total = table.Column<int>(type: "integer", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DateModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DateDeleted = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Strength = table.Column<string>(type: "text", nullable: true),
+                    Dexterity = table.Column<int>(type: "integer", nullable: true),
+                    Constitution = table.Column<int>(type: "integer", nullable: true),
+                    Intelligence = table.Column<int>(type: "integer", nullable: true),
+                    Wisdom = table.Column<int>(type: "integer", nullable: true),
+                    Charisma = table.Column<int>(type: "integer", nullable: true),
+                    Total = table.Column<int>(type: "integer", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -36,11 +36,10 @@ namespace BaldursGateAPI.Migrations
                 name: "Alignments",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DateModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DateDeleted = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -51,11 +50,10 @@ namespace BaldursGateAPI.Migrations
                 name: "Association",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Type = table.Column<string>(type: "text", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DateModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DateDeleted = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,67 +61,98 @@ namespace BaldursGateAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Game",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Game", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Classes",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DateModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DateDeleted = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    GameId = table.Column<int>(type: "integer", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Classes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Classes_Game_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Game",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Locations",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     AreaCode = table.Column<string>(type: "text", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DateModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DateDeleted = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    GameId = table.Column<int>(type: "integer", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Locations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Locations_Game_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Game",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Races",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CharacterRace = table.Column<string>(type: "text", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DateModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DateDeleted = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    GameId = table.Column<int>(type: "integer", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Races", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Races_Game_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Game",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Characters",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     ImageUrl = table.Column<string>(type: "text", nullable: true),
-                    AlignmentId = table.Column<Guid>(type: "uuid", nullable: true),
-                    ClassId = table.Column<Guid>(type: "uuid", nullable: true),
-                    LocationId = table.Column<Guid>(type: "uuid", nullable: true),
-                    AbilityScoreId = table.Column<Guid>(type: "uuid", nullable: true),
-                    RaceId = table.Column<Guid>(type: "uuid", nullable: true),
-                    AssociationId = table.Column<Guid>(type: "uuid", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DateModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DateDeleted = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    AlignmentId = table.Column<int>(type: "integer", nullable: true),
+                    ClassId = table.Column<int>(type: "integer", nullable: true),
+                    LocationId = table.Column<int>(type: "integer", nullable: true),
+                    AbilityScoreId = table.Column<int>(type: "integer", nullable: true),
+                    RaceId = table.Column<int>(type: "integer", nullable: true),
+                    AssociationId = table.Column<int>(type: "integer", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -162,42 +191,33 @@ namespace BaldursGateAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Game",
+                name: "CharacterGame",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CharacterId = table.Column<Guid>(type: "uuid", nullable: true),
-                    ClassId = table.Column<Guid>(type: "uuid", nullable: true),
-                    LocationId = table.Column<Guid>(type: "uuid", nullable: true),
-                    RaceId = table.Column<Guid>(type: "uuid", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DateModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DateDeleted = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    CharactersId = table.Column<int>(type: "integer", nullable: false),
+                    GamesId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Game", x => x.Id);
+                    table.PrimaryKey("PK_CharacterGame", x => new { x.CharactersId, x.GamesId });
                     table.ForeignKey(
-                        name: "FK_Game_Characters_CharacterId",
-                        column: x => x.CharacterId,
+                        name: "FK_CharacterGame_Characters_CharactersId",
+                        column: x => x.CharactersId,
                         principalTable: "Characters",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Game_Classes_ClassId",
-                        column: x => x.ClassId,
-                        principalTable: "Classes",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Game_Locations_LocationId",
-                        column: x => x.LocationId,
-                        principalTable: "Locations",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Game_Races_RaceId",
-                        column: x => x.RaceId,
-                        principalTable: "Races",
-                        principalColumn: "Id");
+                        name: "FK_CharacterGame_Game_GamesId",
+                        column: x => x.GamesId,
+                        principalTable: "Game",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharacterGame_GamesId",
+                table: "CharacterGame",
+                column: "GamesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Characters_AbilityScoreId",
@@ -230,31 +250,26 @@ namespace BaldursGateAPI.Migrations
                 column: "RaceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Game_CharacterId",
-                table: "Game",
-                column: "CharacterId");
+                name: "IX_Classes_GameId",
+                table: "Classes",
+                column: "GameId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Game_ClassId",
-                table: "Game",
-                column: "ClassId");
+                name: "IX_Locations_GameId",
+                table: "Locations",
+                column: "GameId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Game_LocationId",
-                table: "Game",
-                column: "LocationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Game_RaceId",
-                table: "Game",
-                column: "RaceId");
+                name: "IX_Races_GameId",
+                table: "Races",
+                column: "GameId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Game");
+                name: "CharacterGame");
 
             migrationBuilder.DropTable(
                 name: "Characters");
@@ -276,6 +291,9 @@ namespace BaldursGateAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "Races");
+
+            migrationBuilder.DropTable(
+                name: "Game");
         }
     }
 }

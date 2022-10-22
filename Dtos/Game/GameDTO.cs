@@ -1,4 +1,4 @@
-﻿namespace BaldursGateApi.Dto.Game;
+﻿namespace BaldursGateAPI.Dtos.Game;
 
 public class GameDTO
 {

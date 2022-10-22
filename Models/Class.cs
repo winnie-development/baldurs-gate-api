@@ -9,5 +9,5 @@ public class Class : Entity, IAggregateRoot
     public string Name { get; set; }
     
     [Required]
-    public ICollection<Game> Games { get; } = new List<Game>();
+    public Game Game { get; set; } 
 }

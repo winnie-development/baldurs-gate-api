@@ -9,7 +9,7 @@ public class Location : Entity
     
     [Required]
     public string AreaCode { get; set; }
-    
-    [Required]
-    public ICollection<Game> Games { get; } = new List<Game>();
+
+    [Required] 
+    public Game Game { get; set; }
 }

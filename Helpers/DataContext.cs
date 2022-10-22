@@ -16,7 +16,7 @@ public class DataContext : DbContext
     {
         options.UseNpgsql(_configuration.GetConnectionString("WebApiDatabase"));
     }
-    
+
     public DbSet<AbilityScore> AbilityScores { get; set; }
 
     public virtual DbSet<Alignment> Alignments { get; set; }
@@ -31,6 +31,4 @@ public class DataContext : DbContext
     
     public virtual DbSet<Race> Races { get; set; }
     
-
-
 }

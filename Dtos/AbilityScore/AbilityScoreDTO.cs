@@ -1,8 +1,6 @@
-﻿using BaldursGateAPI.Interfaces;
+﻿namespace BaldursGateAPI.Dtos;
 
-namespace BaldursGateAPI.Models;
-
-public class AbilityScore : Entity, IAggregateRoot
+public class AbilityScoreDTO
 {
     public string? Strength { get; set; }
     

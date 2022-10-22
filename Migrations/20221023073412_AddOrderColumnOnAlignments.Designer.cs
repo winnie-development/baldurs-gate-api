@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BaldursGateAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221022050239_firstmigration")]
-    partial class firstmigration
+    [Migration("20221023073412_AddOrderColumnOnAlignments")]
+    partial class AddOrderColumnOnAlignments
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,39 +27,34 @@ namespace BaldursGateAPI.Migrations
 
             modelBuilder.Entity("BaldursGateAPI.Models.AbilityScore", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Charisma")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Constitution")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("Charisma")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("Constitution")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("DateDeleted")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DateModified")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Dexterity")
+                    b.Property<int?>("Dexterity")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Intelligence")
+                    b.Property<int?>("Intelligence")
                         .HasColumnType("integer");
 
                     b.Property<string>("Strength")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Total")
+                    b.Property<int?>("Total")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Wisdom")
+                    b.Property<int?>("Wisdom")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -69,22 +64,21 @@ namespace BaldursGateAPI.Migrations
 
             modelBuilder.Entity("BaldursGateAPI.Models.Alignment", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DateDeleted")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -93,17 +87,13 @@ namespace BaldursGateAPI.Migrations
 
             modelBuilder.Entity("BaldursGateAPI.Models.Association", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DateDeleted")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Type")
@@ -117,43 +107,39 @@ namespace BaldursGateAPI.Migrations
 
             modelBuilder.Entity("BaldursGateAPI.Models.Character", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
 
-                    b.Property<Guid?>("AbilityScoreId")
-                        .HasColumnType("uuid");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid?>("AlignmentId")
-                        .HasColumnType("uuid");
+                    b.Property<int?>("AbilityScoreId")
+                        .HasColumnType("integer");
 
-                    b.Property<Guid>("AssociationId")
-                        .HasColumnType("uuid");
+                    b.Property<int?>("AlignmentId")
+                        .HasColumnType("integer");
 
-                    b.Property<Guid?>("ClassId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("AssociationId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ClassId")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DateDeleted")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DateModified")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("LocationId")
-                        .HasColumnType("uuid");
+                    b.Property<int?>("LocationId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("RaceId")
-                        .HasColumnType("uuid");
+                    b.Property<int?>("RaceId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -174,17 +160,38 @@ namespace BaldursGateAPI.Migrations
 
             modelBuilder.Entity("BaldursGateAPI.Models.Class", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("DateDeleted")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<int>("GameId")
+                        .HasColumnType("integer");
 
-                    b.Property<DateTime?>("DateModified")
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("Classes");
+                });
+
+            modelBuilder.Entity("BaldursGateAPI.Models.Game", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
@@ -193,54 +200,16 @@ namespace BaldursGateAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Classes");
-                });
-
-            modelBuilder.Entity("BaldursGateAPI.Models.Game", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("CharacterId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("ClassId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DateDeleted")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DateModified")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid?>("LocationId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("RaceId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CharacterId");
-
-                    b.HasIndex("ClassId");
-
-                    b.HasIndex("LocationId");
-
-                    b.HasIndex("RaceId");
-
                     b.ToTable("Game");
                 });
 
             modelBuilder.Entity("BaldursGateAPI.Models.Location", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AreaCode")
                         .IsRequired()
@@ -249,11 +218,8 @@ namespace BaldursGateAPI.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("DateDeleted")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DateModified")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<int>("GameId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -261,14 +227,18 @@ namespace BaldursGateAPI.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GameId");
+
                     b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("BaldursGateAPI.Models.Race", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CharacterRace")
                         .IsRequired()
@@ -277,15 +247,29 @@ namespace BaldursGateAPI.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("DateDeleted")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DateModified")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<int>("GameId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GameId");
+
                     b.ToTable("Races");
+                });
+
+            modelBuilder.Entity("CharacterGame", b =>
+                {
+                    b.Property<int>("CharactersId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("GamesId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("CharactersId", "GamesId");
+
+                    b.HasIndex("GamesId");
+
+                    b.ToTable("CharacterGame");
                 });
 
             modelBuilder.Entity("BaldursGateAPI.Models.Character", b =>
@@ -329,43 +313,52 @@ namespace BaldursGateAPI.Migrations
                     b.Navigation("Race");
                 });
 
-            modelBuilder.Entity("BaldursGateAPI.Models.Game", b =>
-                {
-                    b.HasOne("BaldursGateAPI.Models.Character", null)
-                        .WithMany("Games")
-                        .HasForeignKey("CharacterId");
-
-                    b.HasOne("BaldursGateAPI.Models.Class", null)
-                        .WithMany("Games")
-                        .HasForeignKey("ClassId");
-
-                    b.HasOne("BaldursGateAPI.Models.Location", null)
-                        .WithMany("Games")
-                        .HasForeignKey("LocationId");
-
-                    b.HasOne("BaldursGateAPI.Models.Race", null)
-                        .WithMany("Games")
-                        .HasForeignKey("RaceId");
-                });
-
-            modelBuilder.Entity("BaldursGateAPI.Models.Character", b =>
-                {
-                    b.Navigation("Games");
-                });
-
             modelBuilder.Entity("BaldursGateAPI.Models.Class", b =>
                 {
-                    b.Navigation("Games");
+                    b.HasOne("BaldursGateAPI.Models.Game", "Game")
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
                 });
 
             modelBuilder.Entity("BaldursGateAPI.Models.Location", b =>
                 {
-                    b.Navigation("Games");
+                    b.HasOne("BaldursGateAPI.Models.Game", "Game")
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
                 });
 
             modelBuilder.Entity("BaldursGateAPI.Models.Race", b =>
                 {
-                    b.Navigation("Games");
+                    b.HasOne("BaldursGateAPI.Models.Game", "Game")
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("CharacterGame", b =>
+                {
+                    b.HasOne("BaldursGateAPI.Models.Character", null)
+                        .WithMany()
+                        .HasForeignKey("CharactersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BaldursGateAPI.Models.Game", null)
+                        .WithMany()
+                        .HasForeignKey("GamesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

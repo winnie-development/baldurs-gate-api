@@ -9,5 +9,5 @@ public class Race: Entity, IAggregateRoot
     public string CharacterRace { get; set; }
     
     [Required]
-    public ICollection<Game> Games { get; } = new List<Game>();
+    public Game Game { get; set; }
 }

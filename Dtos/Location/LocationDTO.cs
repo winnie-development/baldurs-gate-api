@@ -1,4 +1,4 @@
-﻿namespace BaldursGateApi.Dto.Location;
+﻿namespace BaldursGateAPI.Dtos.Location;
 
 public class LocationDTO
 {
