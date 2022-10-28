@@ -4,5 +4,5 @@ namespace BaldursGateAPI.Services.Alignment;
 
 public interface IAlignmentService
 {
-    Task<List<AlignmentDTO>> RetrieveAllAlignments();
+    Task<List<AlignmentDto>> RetrieveAllAlignments();
 }

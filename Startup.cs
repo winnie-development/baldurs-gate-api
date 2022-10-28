@@ -2,7 +2,7 @@ using BaldursGateAPI.Helpers;
 using BaldursGateAPI.Services.Alignment;
 using BaldursGateAPI.Services.Character;
 using BaldursGateAPI.Services.Class;
-using BaldursGateAPI.Services.Classes;
+using BaldursGateAPI.Services.Class;
 using BaldursGateAPI.Services.Race;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +15,8 @@ builder.Services.AddScoped<IRaceService, RaceService>();
 builder.Services.AddScoped<IClassService, ClassService>();
 builder.Services.AddScoped<ICharacterService, CharacterService>();
 
+builder.Services.AddAWSLambdaHosting(LambdaEventSource.RestApi);
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -24,11 +26,9 @@ builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(connecti
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger(); 
+app.UseSwaggerUI();
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

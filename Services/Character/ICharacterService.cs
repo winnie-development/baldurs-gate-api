@@ -4,5 +4,5 @@ namespace BaldursGateAPI.Services.Character;
 
 public interface ICharacterService
 {
-    Task<List<CharacterDTO>> RetrieveAllCharacters();
+    Task<List<CharacterDto>> RetrieveAllCharacters();
 }

@@ -19,8 +19,8 @@ public class CharactersController : ControllerBase
     }
     
     [HttpGet]
-    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(List<CharacterDTO>))]
-    public async Task<ActionResult<List<CharacterDTO>>> GetAlignments()
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(List<CharacterDto>))]
+    public async Task<ActionResult<List<CharacterDto>>> GetAlignments()
     {
         return await _characterService.RetrieveAllCharacters();
     }

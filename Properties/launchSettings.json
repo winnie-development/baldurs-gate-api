@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "BaldursGateAPI2": {
+    "BaldursGateAPI": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

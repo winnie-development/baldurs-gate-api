@@ -1,6 +1,5 @@
 ﻿using BaldursGateAPI.Dtos;
 using BaldursGateAPI.Dtos.Character;
-using BaldursGateAPI.Dtos.Race;
 using BaldursGateAPI.Helpers;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +14,7 @@ public class CharacterService : ICharacterService
         _context = context;
     }
 
-    public async Task<List<CharacterDTO>> RetrieveAllCharacters()
+    public async Task<List<CharacterDto>> RetrieveAllCharacters()
     {
         var characters = await _context.Characters
             .Include(e => e.AbilityScore)
@@ -24,11 +23,11 @@ public class CharacterService : ICharacterService
             .AsNoTracking()
             .ToListAsync();
         
-        return characters.Select(c => new CharacterDTO
+        return characters.Select(c => new CharacterDto
         {
             Name = c.Name,
             ImageUrl = c.ImageUrl,
-            AbilityScore = new AbilityScoreDTO
+            AbilityScore = new AbilityScoreDto
             {
                 Strength = c.AbilityScore.Strength,
                 Dexterity = c.AbilityScore.Dexterity,

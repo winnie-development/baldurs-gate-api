@@ -1,6 +1,6 @@
 ﻿using BaldursGateAPI.Dtos.Class;
 
-namespace BaldursGateAPI.Services.Classes;
+namespace BaldursGateAPI.Services.Class;
 
 public interface IClassService
 {

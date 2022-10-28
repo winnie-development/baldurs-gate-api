@@ -19,8 +19,8 @@ public class AlignmentsController : ControllerBase
     }
     
     [HttpGet]
-    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(List<AlignmentDTO>))]
-    public async Task<ActionResult<List<AlignmentDTO>>> GetAlignments()
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(List<AlignmentDto>))]
+    public async Task<ActionResult<List<AlignmentDto>>> GetAlignments()
     {
         return await _alignmentService.RetrieveAllAlignments();
     }

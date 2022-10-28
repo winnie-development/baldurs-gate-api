@@ -1,6 +1,5 @@
 ﻿using BaldursGateAPI.Dtos.Class;
 using BaldursGateAPI.Helpers;
-using BaldursGateAPI.Services.Classes;
 using Microsoft.EntityFrameworkCore;
 
 namespace BaldursGateAPI.Services.Class;

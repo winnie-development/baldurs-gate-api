@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using BaldursGateAPI.Dtos.Class;
-using BaldursGateAPI.Services.Classes;
+using BaldursGateAPI.Services.Class;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BaldursGateAPI.Controllers;

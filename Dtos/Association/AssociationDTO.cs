@@ -1,6 +1,6 @@
 ﻿namespace BaldursGateAPI.Dtos.Association;
 
-public class AssociationDTO
+public class AssociationDto
 {
-    public string Name { get; set; }
+    public string Name { get; set; } = default!;
 }

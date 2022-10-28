@@ -13,11 +13,11 @@ public class AlignmentService : IAlignmentService
         _context = context;
     }
 
-    public async Task<List<AlignmentDTO>> RetrieveAllAlignments()
+    public async Task<List<AlignmentDto>> RetrieveAllAlignments()
     {
         var alignments = await _context.Alignments.AsNoTracking().ToListAsync();
         var orderedAlignments = alignments.OrderBy(a => a.Order);
-        return orderedAlignments.Select(a => new AlignmentDTO
+        return orderedAlignments.Select(a => new AlignmentDto
         {
             Alignment = a.Name
         }).ToList();

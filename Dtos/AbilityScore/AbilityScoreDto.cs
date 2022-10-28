@@ -1,6 +1,6 @@
 ﻿namespace BaldursGateAPI.Dtos;
 
-public class AbilityScoreDTO
+public class AbilityScoreDto
 {
     public string? Strength { get; set; }
     
